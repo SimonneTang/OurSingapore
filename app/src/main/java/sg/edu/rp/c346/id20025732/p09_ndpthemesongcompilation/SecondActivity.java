@@ -20,7 +20,8 @@ public class SecondActivity extends AppCompatActivity {
     ListView lv;
     RadioGroup radGrp;
     ArrayList<Song> al;
-    ArrayAdapter<Song> aa;
+    //ArrayAdapter<Song> aa;
+    CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,11 @@ public class SecondActivity extends AppCompatActivity {
         al = dbh.getAllSongs();
         dbh.close();
 
-        aa = new ArrayAdapter<Song>(this, android.R.layout.simple_list_item_1,al);
-        lv.setAdapter(aa);
+        //aa = new ArrayAdapter<Song>(this, android.R.layout.simple_list_item_1,al);
+        //lv.setAdapter(aa);
+
+        adapter  = new CustomAdapter(this,R.layout.row,al);
+        lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,7 +59,7 @@ public class SecondActivity extends AppCompatActivity {
                 DBHelper dbh = new DBHelper(SecondActivity.this);
                 al.clear();
                 al.addAll(dbh.getAllSongsbyStars(5));
-                aa.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         });
     }
