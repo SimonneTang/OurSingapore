@@ -1,7 +1,9 @@
 package sg.edu.rp.c346.id20025732.p09_ndpthemesongcompilation;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,33 +11,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 public class ThirdActivity extends AppCompatActivity {
 
-    EditText etTitle, etSinger,etYear,etID;
-    RadioGroup radgrp;
-    RadioButton rb1,rb2,rb3,rb4,rb5;
-    Button btnUpdate,btnDelete,btnCancel;
+    EditText etTitle, etSinger, etYear, etID;
+    Button btnUpdate, btnDelete, btnCancel;
+    RatingBar rb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
 
-        etTitle = findViewById(R.id.etTitle);
-        etSinger = findViewById(R.id.etSingers);
-        etYear = findViewById(R.id.etYear);
+        etTitle = findViewById(R.id.etname);
+        etSinger = findViewById(R.id.etDescription);
+        etYear = findViewById(R.id.etYArea);
         etID = findViewById(R.id.etID);
-        radgrp = findViewById(R.id.radGrp);
-        rb1 = findViewById(R.id.rb1);
-        rb2 = findViewById(R.id.rb2);
-        rb3 = findViewById(R.id.rb3);
-        rb4 = findViewById(R.id.rb4);
-        rb5 = findViewById(R.id.rb5);
         btnUpdate = findViewById(R.id.btnUpdate);
         btnDelete = findViewById(R.id.btnDelete);
         btnCancel = findViewById(R.id.btnCancel);
+        rb = findViewById(R.id.rBarStarNew);
 
         Intent i = getIntent();
         final Song currentSong = (Song) i.getSerializableExtra("song");
@@ -43,19 +40,7 @@ public class ThirdActivity extends AppCompatActivity {
         etTitle.setText(currentSong.getTitle());
         etSinger.setText(currentSong.getSingers());
         etYear.setText(currentSong.getYear());
-        switch(currentSong.getStars()){
-            case 5:
-                rb5.setChecked(true);
-            case 4:
-                rb4.setChecked(true);
-            case 3:
-                rb3.setChecked(true);
-            case 2:
-                rb2.setChecked(true);
-            case 1:
-                rb1.setChecked(true);
-
-        }
+        rb.setRating(currentSong.getStars());
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,17 +51,15 @@ public class ThirdActivity extends AppCompatActivity {
                 int year = Integer.valueOf(etYear.getText().toString().trim());
                 currentSong.setYear(year);
 
-                int selectedRB = radgrp.getCheckedRadioButtonId();
-                RadioButton rb = (RadioButton) findViewById(selectedRB);
-                currentSong.setStars(Integer.parseInt(rb.getText().toString()));
+                currentSong.setStars((int) (rb.getRating()));
                 int result = dbh.updateSong(currentSong);
-                if(result < 0){
-                    Toast.makeText(ThirdActivity.this, "Song updated",Toast.LENGTH_SHORT).show();
+                if (result < 0) {
+                    Toast.makeText(ThirdActivity.this, "Song updated", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent();
                     setResult(RESULT_OK);
                     finish();
-                }else{
-                    Toast.makeText(ThirdActivity.this,"Update Failed",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ThirdActivity.this, "Update Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -84,17 +67,52 @@ public class ThirdActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DBHelper dbh = new DBHelper(ThirdActivity.this);
-                int result = dbh.deleteSong(currentSong.get_id());
-                finish();
+                AlertDialog.Builder myBuilder = new AlertDialog.Builder(ThirdActivity.this);
+
+                myBuilder.setTitle("Danger");
+                myBuilder.setMessage("Are you sure you want to delete " + etTitle + "?");
+                myBuilder.setCancelable(false);
+
+                myBuilder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DBHelper dbh = new DBHelper(ThirdActivity.this);
+                        int result = dbh.deleteSong(currentSong.get_id());
+                        finish();
+                    }
+                });
+
+                myBuilder.setPositiveButton("Cancel",null);
+
+                AlertDialog myDialog = myBuilder.create();
+                myDialog.show();
+
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                AlertDialog.Builder myBuilder = new AlertDialog.Builder(ThirdActivity.this);
+
+                myBuilder.setTitle("Danger");
+                myBuilder.setMessage("Are you sure you want to discard the changes?");
+                myBuilder.setCancelable(false);
+
+                myBuilder.setNegativeButton("discard", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+                myBuilder.setPositiveButton("Do not discard",null);
+
+                AlertDialog myDialog = myBuilder.create();
+                myDialog.show();
+
             }
         });
     }
 }
+

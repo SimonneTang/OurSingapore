@@ -32,7 +32,6 @@ public class SecondActivity extends AppCompatActivity {
 
         btn5Stars = findViewById(R.id.btn5Stars);
         lv = findViewById(R.id.lv);
-        radGrp = findViewById(R.id.rg);
 
         DBHelper dbh = new DBHelper(this);
         al = dbh.getAllSongs();

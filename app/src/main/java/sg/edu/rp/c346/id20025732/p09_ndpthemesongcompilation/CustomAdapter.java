@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,25 +37,22 @@ public class CustomAdapter extends ArrayAdapter {
         View rowView = inflater.inflate(layout_id,parent,false);
         TextView tvName =rowView.findViewById(R.id.textViewTitle);
         TextView tvyearReleased = rowView.findViewById(R.id.textViewyearReleased);
-        TextView tvStars = rowView.findViewById(R.id.textViewStars);
         TextView tvSinger = rowView.findViewById(R.id.textViewSingers);
+        ImageView Ivnew = rowView.findViewById(R.id.imageView);
+        RatingBar Rbar = rowView.findViewById(R.id.rBar);
+
         Song currentVersion = SongList.get(position);
         tvName.setText(currentVersion.getTitle());
         tvyearReleased.setText(currentVersion.getYear() + "");
         tvSinger.setText(currentVersion.getSingers());
-        String numstars = "";
-        if(currentVersion.getStars() == 1){
-            numstars = "*";
-        }else if(currentVersion.getStars() == 2){
-            numstars = "**";
-        }else if(currentVersion.getStars() == 3){
-            numstars = "***";
-        }else if(currentVersion.getStars() == 4){
-            numstars = "****";
-        }else if(currentVersion.getStars() == 5){
-            numstars = "*****";
+        Rbar.setRating(currentVersion.getStars());
+
+
+        if(currentVersion.getYear() >= 2019){
+            Ivnew.setImageResource(R.drawable.newsong);
+        }else{
+            Ivnew.setVisibility(View.INVISIBLE);
         }
-        tvStars.setText(numstars);
 
         return rowView;
     }

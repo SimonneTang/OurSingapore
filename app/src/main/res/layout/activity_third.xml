@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Song ID" />
+        android:text="Island ID" />
 
     <EditText
         android:id="@+id/etID"
@@ -21,40 +21,40 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Song Title" />
+        android:text="Island name" />
 
     <EditText
-        android:id="@+id/etTitle"
+        android:id="@+id/etname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter song title here"
+        android:hint="Enter Island here"
         android:inputType="textPersonName" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Singer" />
+        android:text="Description" />
 
     <EditText
-        android:id="@+id/etSingers"
+        android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter singer's name here"
+        android:hint="Enter Description"
         android:inputType="textPersonName" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Year" />
+        android:text="Area" />
 
     <EditText
-        android:id="@+id/etYear"
+        android:id="@+id/etYArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter year of release here"
+        android:hint="Enter Area of the Island"
         android:inputType="textPersonName" />
 
     <TextView
@@ -62,47 +62,13 @@
         android:layout_height="wrap_content"
         android:text="Stars" />
 
-    <RadioGroup
-        android:id="@+id/radGrp"
-        android:layout_width="match_parent"
+    <RatingBar
+        android:id="@+id/rBarStarNew"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1" />
-
-        <RadioButton
-            android:id="@+id/rb2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="2" />
-
-        <RadioButton
-            android:id="@+id/rb3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="3" />
-
-        <RadioButton
-            android:id="@+id/rb4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="4" />
-
-        <RadioButton
-            android:id="@+id/rb5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="5" />
-    </RadioGroup>
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
